@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketVault | The Institutional Terminal for Retail Traders</title>
+    <meta name="description" content="The all-in-one financial dashboard. Real-time FedWatch, Trump Feed, Crypto Liquidations, Option Flows, and Senate Trading data in one Discord.">
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="MarketVault - The Retail Terminal">
+    <meta property="og:description" content="Market Intelligence At Your Fingertips">
+    <meta property="og:image" content="logo.jpg">
+
+    <!-- Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "MarketVault",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Discord, Web Browser",
+      "description": "Real-time financial intelligence server providing Economic news, Stocks and Crypto updates.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <style>
+        :root {
+            /* Theme Colors */
+            --bg-body: #0b0c0f;
+            --bg-card: #2b2d31;      /* Discord Embed Background */
+            
+            /* Accents */
+            --market-gold: #FFD700;
+            --strip-blue: #00b0f4;   /* Stock Blue */
+            --strip-orange: #f59e0b; /* News Orange */
+            --strip-green: #23a559;  /* Crypto Green */
+            
+            /* Text & Status */
+            --danger: #f23f43;
+            --success: #23a559;
+            --text-main: #f2f3f5;
+            --text-muted: #b5bac1;
+            --text-header: #dbdee1;
+            --discord-blue: #5865F2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+        }
+
+        /* Utilities */
+        .text-gold { color: var(--market-gold); }
+        .text-red { color: var(--danger); }
+        .text-green { color: var(--success); }
+        .text-muted { color: var(--text-muted); }
+        .text-bold { font-weight: 700; }
+        
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navbar */
+        nav { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(11, 12, 15, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 700; font-size: 2rem; gap: 10px; }
+        .logo-img { height: 75px; width: auto; border-radius: 50%; display: block; }
+
+        /* Hero Section */
+        .hero { padding: 80px 0 60px; text-align: center; position: relative; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 24px; line-height: 1.1; text-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 40px; }
+
+        /* Buttons */
+        .btn { padding: 14px 28px; border-radius: 4px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.2s; font-size: 1.1rem; }
+        .btn-gold { background: var(--market-gold); color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+        .btn-discord { background: #404249; color: white; border: 1px solid #555; }
+        .btn-discord:hover { background: #4e5058; }
+
+        /* DISCORD TERMINAL MOCKUP */
+        .discord-mockup {
+            max-width: 1100px; 
+            margin: 60px auto 0;
+            background: rgba(30, 31, 34, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            text-align: left;
+        }
+
+        /* Header GIF */
+        .gif-container {
+            width: 100%;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #1e1f22;
+            background: #000;
+            max-height: 300px;
+        }
+        .gif-container img { width: 100%; height: 100%; object-fit: cover; display: block; object-position: top;}
+
+        /* 3-Column Grid for Embeds */
+        .embed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* Embed Card Styles */
+        .embed-group-label { color: #bbb; font-size: 0.8rem; margin-bottom: 5px; font-weight: bold; }
+        .embed-card {
+            background: var(--bg-card);
+            border-radius: 4px;
+            padding: 12px 16px 16px;
+            border-left: 4px solid;
+            position: relative;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .embed-card.blue-strip { border-left-color: var(--strip-blue); }
+        .embed-card.orange-strip { border-left-color: var(--strip-orange); }
+        .embed-card.green-strip { border-left-color: var(--strip-green); }
+
+        /* Embed Internals */
+        .embed-author { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .embed-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--text-header); display: block; }
+        .embed-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
+        .data-row { display: flex; justify-content: space-between; margin-top: 6px; font-family: 'Consolas', monospace; font-size: 0.85rem; border-bottom: 1px solid #3f4148; padding-bottom: 4px; }
+        .data-row:last-child { border-bottom: none; }
+        .liq-badge { background: rgba(242, 63, 67, 0.1); color: var(--danger); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; border: 1px solid rgba(242, 63, 67, 0.3); }
+        .impact-badge { display: inline-block; background: rgba(242, 63, 67, 0.2); color: var(--danger); border: 1px solid rgba(242, 63, 67, 0.4); padding: 0 4px; border-radius: 3px; font-size: 0.7rem; font-weight: bold; }
+        .bot-footer { margin-top: 10px; font-size: 0.7rem; color: #72767d; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+
+        /* Features Section */
+        .features-section { padding: 80px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .vault-card {
+            background: rgba(30, 31, 34, 0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .vault-card:hover { transform: translateY(-5px); border-color: var(--market-gold); }
+        .vault-title { font-size: 1.5rem; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .vault-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.4; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;}
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { display: flex; gap: 12px; margin-bottom: 16px; line-height: 1.5; font-size: 0.95rem; color: #dcddde; }
+        .f-icon { flex-shrink: 0; }
+        .highlight { color: var(--text-main); font-weight: 700; }
+
+        @media (max-width: 900px) {
+            .embed-grid { grid-template-columns: 1fr; } 
+            .hero h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        /* Final CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1) 0%, rgba(11, 12, 15, 1) 70%);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="logo.jpg" alt="MarketVault" class="logo-img">
+                MarketVault🔐
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Area -->
+    <section class="hero">
+        <div class="container">
+            <h1>Market Intelligence <br> <span class="text-gold">At Your Fingertips.</span></h1>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;">
+                <a href="https://discord.gg/3vZWyJZKeF" class="btn btn-gold">Join The Vault</a>
+                <a href="#features" class="btn btn-discord">View Features</a>
+            </div>
+
+            <!-- DISCORD PREVIEW GRID -->
+            <div class="discord-mockup">
+                
+                <!-- 1. Header GIF -->
+                <div class="gif-container">
+                    <img src="marketvault welcome gif.gif" alt="MarketVault Terminal Live">
+                </div>
+
+                <!-- 2. The Three Panels -->
+                <div class="embed-grid">
+                    
+                    <!-- PANEL A: NEWS (Orange Strip) -->
+                    <div class="embed-group">
+                        <div class="embed-group-label"># Economic-Calendar</div>
+                        
+                        <!-- Calendar Embed -->
+                        <div class="embed-card orange-strip">
+                            <div class="embed-title">📅 US Economic Calendar</div>
+                            <div class="embed-title" style="font-size: 0.9rem;">11 Dec 2025 Events</div>
+                            
+                            <div class="embed-desc">
+                                📌 <strong>FEDERAL FUNDS RATE</strong><br>
+                                <span class="impact-badge">⚠️ Impact: High</span><br>
+                                Forecast: 3.75% | Previous: 4.00%<br>
+                                <span style="color:#e0e0e0;">📉 Potential Market Impact:</span><br>
+                                A forecast of 3.75% suggests easing. This could provide relief to the stock market.
+                            </div>
+                            <div class="bot-footer">📢 Not Financial Advice • Today at 17:00</div>
+                        </div>
+
+                        <!-- FedWatch Embed -->
+                        <div class="embed-card orange-strip">
+                            <div class="embed-title">🏛️ Next FOMC: 27 Jan 2026</div>
+                            <div class="embed-desc">
+                                <strong>Current Fed Funds Rate:</strong> 3.5 - 3.75%<br>
+                                <em style="font-size: 0.85rem; color: #949BA4;">Market-Implied Probabilities:</em>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <div class="data-row">
+                                    <span>27 Jan 2026</span>
+                                    <span class="text-green">3.50 - 3.75% -> 75.2% (Likely Hold)</span>
+                                </div>
+                                <div class="data-row">
+                                    <span>19 Mar 2026</span>
+                                    <span class="text-muted">3.25 - 3.50% -> 43.2%</span>
+                                </div>
+                            </div>
+                            <div class="bot-footer">📢 Not Financial Advice • Today at 4:13 AM</div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL B: STOCKS (Blue Strip) -->
+                    <div class="embed-group">
+                        <div class="embed-group-label"># Company-Intel</div>
+                        
+                        <!-- Valuation Embed -->
+                        <div class="embed-card blue-strip" style="margin-bottom: 10px">
+                            <div class="embed-title">📊 Valuations for BABA</div>
+                            <div class="embed-desc"><strong>Current Price:</strong> $157.44</div>
+                            <div class="embed-desc" style="margin-bottom: 38px">
+                                🧮 <strong>DCF Valuation:</strong><br>
+                                <span class="text-green text-bold">$265.42 (41% Undervalued)</span>
+                            </div>
+                            <div class="embed-desc">
+                                🕵️ <strong>Analysts Valuation:</strong><br>
+                                <span class="text-green text-bold">$197.98 (20% Undervalued)</span>
+                            </div>
+                            <div class="bot-footer">📢 Not Financial Advice • Fri 05 Dec 2025</div>
+                        </div>
+
+                        <!-- Top Stories Embed -->
+                        <div class="embed-card blue-strip">
+                            <div class="embed-title">📰 Top Stories</div>
+                            <div class="embed-title" style="font-size: 0.9rem;">SpaceX Valued at $800 Billion</div>
+                            <div class="embed-desc">
+                                If insider shares are sold at $421 each, it becomes the most valuable private company globally ahead of potential IPO.
+                            </div>
+                            <div class="bot-footer">📢 Not Financial Advice • Sat 13 Dec 2025</div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL C: CRYPTO (Green Strip) -->
+                    <div class="embed-group">
+                        <div class="embed-group-label"># Crypto-Flows</div>
+                        
+                        <!-- Liquidations Embed -->
+                        <div class="embed-card green-strip" style="margin-bottom: 10px">
+                            <div class="embed-title" style="color: #f2f3f5;">⚠️ ETH LIQUIDATIONS (1H)</div>
+                            <div class="embed-desc">
+                                Total: <b style="color:white">$2.9M</b> | Longs: $64K | Shorts: <b class="text-red">$2.9M</b>
+                            </div>
+                            
+                            <div class="data-row" style="align-items: center">
+                                <span>💥 $877.5K <span class="liq-badge">SHORT</span></span>
+                                <span>@ $3,107.24</span>
+                            </div>
+                            <div class="data-row" style="align-items: center">
+                                <span>💥 $302.0K <span class="liq-badge">SHORT</span></span>
+                                <span>@ $3,102.71</span>
+                            </div>
+                            <div class="data-row" style="align-items: center">
+                                <span>💥 $502.0K <span class="liq-badge">SHORT</span></span>
+                                <span>@ $3,107.21</span>
+                            </div>
+                            <div class="data-row" style="align-items: center">
+                                <span>💥 $322.8K <span class="liq-badge">SHORT</span></span>
+                                <span>@ $3,130.20</span>
+                            </div>
+                            <div class="bot-footer" style="margin-bottom: 5px">📢 Not Financial Advice • Sat 13 Dec 2025</div>
+                        </div>
+
+                        <!-- DOM Embed -->
+                        <div class="embed-card green-strip">
+                            <div class="embed-title">📊 DOM Imbalance Detected</div>
+                            <div class="embed-desc">
+                                🟢 <strong>Buying Pressure:</strong> +24.54%<br>
+                                <span class="text-green">Bids: 52.6K</span> | <span class="text-red">Asks: 31.9K</span>
+                            </div>
+                            <div class="embed-desc">📍 <strong>Mid Price:</strong> $133.7950</div>
+                            <div class="bot-footer">📢 Not Financial Advice • Sat 13 Dec 2025</div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End Grid -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By Strip -->
+    <div class="logo-strip" style="border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 30px 0; background: rgba(15, 16, 18, 0.5); margin-top: 50px;">
+        <div class="container strip-content" style="display: flex; justify-content: center; gap: 50px; opacity: 0.4; filter: grayscale(100%); flex-wrap: wrap; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px;">
+            <span>MACRO CATALYSTS</span>
+            <span>FEDWATCH</span>
+            <span>INSIDER & FINANCIAL SUMMARIES</span>
+            <span>SPOT LIQUIDATIONS</span>
+        </div>
+    </div>
+
+    <!-- COMPARISON SECTION: TABS VS TERMINAL -->
+    <section style="padding: 100px 0; border-bottom: 1px solid rgba(255,255,255,0.05); background: linear-gradient(to bottom, rgba(11, 12, 15, 0), rgba(11, 12, 15, 1));">
+        <div class="container">
+            <div class="grid" style="align-items: center; gap: 50px;">
+                
+                <!-- LEFT: THE OLD WAY (CHAOS) -->
+                <div style="opacity: 0.7;">
+                    <h3 style="color: var(--text-muted); font-size: 1.5rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 2rem;">❌</span> The "20 Tabs" Strategy
+                    </h3>
+                    <div style="background: #1e1f22; border: 1px solid #333; border-radius: 8px; padding: 25px; position: relative; overflow: hidden;">
+                        <!-- Fake Tabs Visual -->
+                        <div style="display: flex; gap: 5px; margin-bottom: 15px; opacity: 0.5;">
+                            <div style="height: 8px; width: 30px; background: #555; border-radius: 2px;"></div>
+                            <div style="height: 8px; width: 30px; background: #555; border-radius: 2px;"></div>
+                            <div style="height: 8px; width: 30px; background: #555; border-radius: 2px;"></div>
+                            <div style="height: 8px; width: 30px; background: #555; border-radius: 2px;"></div>
+                            <div style="height: 8px; width: 30px; background: #f23f43; border-radius: 2px;"></div>
+                        </div>
+                        <ul style="list-style: none; color: var(--text-muted); line-height: 2.2; font-size: 0.95rem;">
+                            <li style="display: flex; gap: 10px;">⏱️ <span style="text-decoration: line-through;">Refresh CNBC for headlines</span></li>
+                            <li style="display: flex; gap: 10px;">📉 <span style="text-decoration: line-through;">Check TradingView for charts</span></li>
+                            <li style="display: flex; gap: 10px;">🐦 <span style="text-decoration: line-through;">Scroll X for "alpha"</span></li>
+                            <li style="display: flex; gap: 10px;">🏛️ <span style="text-decoration: line-through;">Search Gov sites for filings</span></li>
+                            <li style="display: flex; gap: 10px;">🐋 <span style="text-decoration: line-through;">Watch Etherscan for whales</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT: THE NEW WAY (MARKETVAULT) -->
+                <div>
+                    <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 2rem;">✅</span> MarketVault🔐
+                    </h3>
+                    <div style="background: rgba(88, 101, 242, 0.1); border: 1px solid var(--discord-blue); border-radius: 8px; padding: 30px; position: relative; box-shadow: 0 0 30px rgba(88, 101, 242, 0.15);">
+                        <p style="color: #fff; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">
+                            Stop context switching. We pipe every critical data stream into <strong>one single timeline.</strong>
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <span style="background: rgba(0,0,0,0.3); border: 1px solid var(--strip-blue); color: var(--strip-blue); padding: 5px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700;">Fed Rates</span>
+                            <span style="background: rgba(0,0,0,0.3); border: 1px solid var(--market-gold); color: var(--market-gold); padding: 5px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700;">Senate Buys</span>
+                            <span style="background: rgba(0,0,0,0.3); border: 1px solid var(--success); color: var(--success); padding: 5px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700;">Whale Alerts</span>
+                            <span style="background: rgba(0,0,0,0.3); border: 1px solid var(--danger); color: var(--danger); padding: 5px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 700;">Liquidations</span>
+                        </div>
+                        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <a href="#features" style="color: #fff; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 0.95rem;">
+                                See data feeds and<strong>more</strong> <span style="font-size: 1.2rem;">↓</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Area -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 15px; font-size: 2.5rem;">Inside MarketVault🔐</h2>
+            <div class="grid">
+                <!-- 1. NEWS VAULT -->
+                <div class="vault-card">
+                    <div class="vault-title"><span class="f-icon">📰</span> News Vault</div>
+                    <div class="vault-desc">Stay ahead of market chaos with real-time macro updates.</div>
+                    <ul class="feature-list">
+                        <li><span class="f-icon">🗞️</span> <span><span class="highlight">Breaking Headlines:</span> Market & Crypto news faster than media.</span></li>
+                        <li><span class="f-icon">🏦</span> <span><span class="highlight">FedWatch:</span> Monitor Federal Reserve rate probabilities.</span></li>
+                        <li><span class="f-icon">🦅</span> <span><span class="highlight">Trump Feed:</span> Connection to Truth Social & X.</span></li>
+                        <li><span class="f-icon">🌎</span> <span><span class="highlight">Econ Calendar:</span> Never miss a CPI print or NFP jobs report.</span></li>
+                        <li><span class="f-icon"></span> <span><span class="highlight">More inside</li>
+                    </ul>
+                </div>
+
+                <!-- 2. STOCKS VAULT -->
+                <div class="vault-card">
+                    <div class="vault-title"><span class="f-icon">📈</span> Stocks Vault</div>
+                    <div class="vault-desc">Discover ideas and track "smart money" flows.</div>
+                    <ul class="feature-list">
+                        <li><span class="f-icon">🏛️</span> <span><span class="highlight">Senate Trading:</span> Track Congress & Hedge Fund money.</span></li>
+                        <li><span class="f-icon">⚡</span> <span><span class="highlight">Option Flows:</span> Uncover unusual institutional volume.</span></li>
+                        <li><span class="f-icon">🕵️</span> <span><span class="highlight">Company Intel:</span> Financial summaries & valuation models.</span></li>
+                        <li><span class="f-icon">🔥</span> <span><span class="highlight">Daily Movers:</span> Spot pre-market trending tickers.</span></li>
+                        <li><span class="f-icon"></span> <span><span class="highlight">More inside</li>
+                    </ul>
+                </div>
+
+                <!-- 3. CRYPTO VAULT -->
+                <div class="vault-card">
+                    <div class="vault-title"><span class="f-icon">🪙</span> Crypto Vault</div>
+                    <div class="vault-desc">Ride the digital wave with on-chain data and algo tracking.</div>
+                    <ul class="feature-list">
+                        <li><span class="f-icon">🐋</span> <span><span class="highlight">Whale Alerts:</span> Track massive wallet movements.</span></li>
+                        <li><span class="f-icon">🤖</span> <span><span class="highlight">Algo Wars:</span> Watch AI systems compete in trading.</span></li>
+                        <li><span class="f-icon">💰</span> <span><span class="highlight">ETF Flows:</span> Daily Bitcoin/Ethereum ETF capital flows.</span></li>
+                        <li><span class="f-icon">📉</span> <span><span class="highlight">Liquidations:</span> Visualize market pressure & DOM depth.</span></li>
+                        <li><span class="f-icon"></span> <span><span class="highlight">More inside</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+    <section class="cta-section">
+        <div class="container cta-box">
+            <h2 class="cta-title">Ready to Access Real-Time Market Intelligence?</h2>
+            <p class="cta-text">
+                The markets don't wait for you to refresh your browser. <br>
+            </p>
+            <a href="https://discord.gg/3vZWyJZKeF" class="btn btn-gold" style="font-size: 1.5rem; padding: 20px 50px;">
+                See You Inside 🔓
+            </a>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #555;">Instant Access.</p>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.9rem;">
+        &copy; 2025 MarketVault. Not Financial Advice.
+    </footer>
+
+
+</body>
+</html>
