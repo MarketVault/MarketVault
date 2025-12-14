@@ -4,24 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="fUik3WOXs_G_SL9z0Ky2APwAlDby3tAlIrTSS7iqcL8" />
-    <title>MarketVault | The Institutional Terminal for Retail Traders</title>
-    <meta name="description" content="The all-in-one financial dashboard. Real-time FedWatch, Trump Feed, Crypto Liquidations, Option Flows, and Senate Trading data in one Discord.">
     
-    <!-- Open Graph / Social Sharing -->
-    <meta property="og:title" content="MarketVault - The Retail Terminal">
-    <meta property="og:description" content="Market Intelligence At Your Fingertips">
-    <meta property="og:image" content="logo.jpg">
+    <!-- Primary Meta Tags -->
+    <title>MarketVault🔐 | Finance Server | Institutional Data</title>
+    <meta name="description" content="Professional finance server for retail investors. Get real-time FedWatch, President Trump updates, whale alerts, and institutional stock & crypto flow data.">
+    <meta name="keywords" content="Finance Server, Crypto Flows, Stock Market Data, Institutional Tools, FedWatch, Whale Alerts, Option Flows, Retail Investor">
+    <meta name="robots" content="index, follow">
 
-    <!-- Schema -->
+    <!-- Open Graph / Facebook / Server -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://marketvault.github.io/MarketVault/">
+    <meta property="og:title" content="MarketVault🔐 | Finance Server | Institutional Data">
+    <meta property="og:description" content="Level the playing field with real-time macro news, option flows, and crypto liquidation maps. Join the Vault today.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/MarketVault/MarketVault/95acd2a793354f4e8f2e8db2e45f5651abb64775/logo.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MarketVault🔐 | Real-Time Market Intelligence">
+    <meta name="twitter:description" content="Access institutional-grade data: Congress trading, Algo wars, and Fed probabilities directly in the server.">
+    <meta name="twitter:site" content="@marketvault21">
+    <meta name="twitter:creator" content="@marketvault21">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/MarketVault/MarketVault/95acd2a793354f4e8f2e8db2e45f5651abb64775/logo.jpg">
+
+    <!-- Schema Markup -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "MarketVault",
+      "headline": "The Institutional Finance Server for Retail Investors",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Discord, Web Browser",
-      "description": "Real-time financial intelligence server providing Economic news, Stocks and Crypto updates.",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      "description": "A professional-grade Discord ecosystem delivering real-time financial intelligence, including Federal Reserve updates, crypto on-chain data, and institutional option flows.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "7-Day Free Trial Available"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     }
     </script>
 
@@ -34,28 +61,28 @@
         "name": "Is MarketVault🔐 free?",
         "acceptedAnswer": {
         "@type": "Answer",
-        "text": "New users get a 7-day free trial! After the trial period, you can continue enjoying access to the MarketVault by choosing a subscription plan. MarketVault aggregates real-time institutional data streams—such as Federal Reserve updates, congress and hedge fund filings, and crypto liquidation maps—into a user-friendly Discord interface."
+        "text": "New users get a 7-day free trial! After the trial, you can choose a subscription plan. MarketVault aggregates real-time institutional data streams—such as Federal Reserve updates, Congress trading filings, and crypto liquidation maps—into a user-friendly Discord interface."
         }
     }, {
         "@type": "Question",
         "name": "Is this a signals or trade-calling server?",
         "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. MarketVault🔐 does not provide buy or sell signals. Instead, it delivers raw, real-time data such as news, flows, filings, and on-chain metrics so you can make your own informed decisions. The focus is on transparency, data, and market intelligence—not hype or financial advice."
+        "text": "No. MarketVault🔐 provides raw, real-time intelligence including news, flows, and on-chain metrics [web:2]. We empower you to make informed decisions rather than following blind signals."
         }
     }, {
         "@type": "Question",
         "name": "How fast is the news feed?",
         "acceptedAnswer": {
         "@type": "Answer",
-        "text": "MarketVault🔐 is designed for speed and accuracy. Our server connects directly to high-quality data APIs, ensuring that macroeconomic news, option flows, whale alerts, and other key market developments are delivered as soon as they happen."
+        "text": "MarketVault🔐 connects directly to high-quality data APIs for speed and accuracy, ensuring macroeconomic news, option flows, and whale alerts are delivered instantly."
         }
     }, {
         "@type": "Question",
         "name": "Is MarketVault🔐 financial advice?",
         "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. MarketVault🔐 provides informational and educational data only. All content is for research purposes, and users are responsible for their own trading decisions. The platform empowers you with data, not recommendations."
+        "text": "No. MarketVault🔐 provides informational and educational data only. All content is for research purposes."
         }
     }]
     }
@@ -66,7 +93,7 @@
         posthog.init('phc_mFjIXK17iMaazZpVYn3UDRGt4QT5o8XirDvTDxeHI7d', {
             api_host: 'https://us.i.posthog.com',
             defaults: '2025-11-30',
-            person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+            person_profiles: 'always', // or 'always' to create profiles for anonymous users as well
         })
     </script>
 
@@ -116,8 +143,8 @@
         
         /* Navbar */
         nav { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(11, 12, 15, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 700; font-size: 2rem; gap: 10px; }
-        .logo-img { height: 75px; width: auto; border-radius: 50%; display: block; }
+        .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 700; font-size: 1.5rem; gap: 10px; }
+        .logo-img { height: 50px; width: auto; border-radius: 50%; display: block; }
 
         /* Hero Section */
         .hero { padding: 80px 0 60px; text-align: center; position: relative; }
@@ -255,7 +282,7 @@
                 <img src="logo.jpg" alt="MarketVault" class="logo-img">
                 MarketVault🔐
             </a>
-            <a href="https://x.com/marketvault21" target="_blank" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 1.5rem;">
+            <a href="https://x.com/marketvault21" target="_blank" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 1rem;">
                 Follow on 𝕏
             </a>
         </div>
