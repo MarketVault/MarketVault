@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="fUik3WOXs_G_SL9z0Ky2APwAlDby3tAlIrTSS7iqcL8" />
+
+    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/MarketVault/MarketVault/95acd2a793354f4e8f2e8db2e45f5651abb64775/logo.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="https://raw.githubusercontent.com/MarketVault/MarketVault/95acd2a793354f4e8f2e8db2e45f5651abb64775/logo.jpg">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/MarketVault/MarketVault/95acd2a793354f4e8f2e8db2e45f5651abb64775/logo.jpg">
     
     <!-- Primary Meta Tags -->
     <title>MarketVault🔐 | Finance Server | Institutional Data</title>
@@ -153,9 +157,8 @@
 
         /* Buttons */
         .btn { padding: 14px 28px; border-radius: 4px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.2s; font-size: 1.1rem; }
-        .btn-gold { background: var(--market-gold); color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
-        .btn-discord { background: #404249; color: white; border: 1px solid #555; }
+        .btn-discord { background: #404249; color: white; border: 1px solid #555; border-radius: 50px;}
         .btn-discord:hover { background: #4e5058; }
 
         /* DISCORD TERMINAL MOCKUP */
@@ -271,6 +274,46 @@
             margin-bottom: 40px;
             line-height: 1.6;
         }
+
+        /* Base Button Styling */
+        .btn-gold {
+            background: linear-gradient(135deg, #FED700 0%, #E6C200 100%);
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(254, 215, 0, 0.3); /* Softer initial shadow */
+            
+            display: inline-block;
+            font-size: 1.5rem;
+            
+            /* Slower, gentler animation (3s instead of 2s) */
+            animation: breathe-gold 2s infinite;
+        }
+
+        /* Hover State */
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #FFDF33 0%, #FFD700 100%);
+            box-shadow: 0 0px 20px rgba(254, 215, 0, 0.5);
+            animation: none;
+        }
+
+        /* The "Breathing" Keyframes */
+        /* Instead of an expanding ring, this just gently glows in and out */
+        @keyframes breathe-gold {
+            0% {
+                box-shadow: 0 0 5px 0 rgba(254, 215, 0, 0.3); /* Start with a slight glow (don't go to zero) */
+            }
+            50% {
+                box-shadow: 0 0 25px 5px rgba(254, 215, 0, 0.4); /* Peak glow */
+            }
+            100% {
+                box-shadow: 0 0 5px 0 rgba(254, 215, 0, 0.3); /* Return to slight glow */
+            }
+        }
+        
     </style>
 </head>
 <body>
@@ -278,7 +321,7 @@
     <!-- Navbar -->
     <nav>
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="#" class="logo">
+            <a href="https://discord.gg/3vZWyJZKeF" class="logo">
                 <img src="logo.jpg" alt="MarketVault" class="logo-img">
                 MarketVault🔐
             </a>
@@ -560,7 +603,8 @@
             <p class="cta-text">
                 The markets don't wait for you to refresh your browser. <br>
             </p>
-            <a href="https://discord.gg/3vZWyJZKeF" class="btn btn-gold" style="font-size: 1.5rem; padding: 20px 50px;">
+            <!-- Updated Button -->
+            <a href="https://discord.gg/3vZWyJZKeF" class="btn btn-gold">
                 See You Inside 🔓
             </a>
             <p style="margin-top: 20px; font-size: 0.9rem; color: #555;">Instant Access.</p>
